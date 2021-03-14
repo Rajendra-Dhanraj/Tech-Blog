@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { Comment } = require("../../models");
 
-// get
+// get all comments
 
 router.get("/", (req, res) => {
   Comment.findAll({})
@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
     });
 });
 
-//post
+//post a single comment
 
 router.post("/", (req, res) => {
   Comment.create({

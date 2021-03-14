@@ -59,9 +59,7 @@ router.post("/login", (req, res) => {
     },
   }).then((dbUserData) => {
     if (!dbUserData) {
-      res
-        .status(400)
-        .json({ message: "No user found with that username!" });
+      res.status(400).json({ message: "No user found with that username!" });
       return;
     }
     const validPassword = dbUserData.checkPassword(req.body.password);
@@ -74,8 +72,9 @@ router.post("/login", (req, res) => {
       req.session.user_id = dbUserData.id;
       req.session.username = dbUserData.username;
       req.session.loggedIn = true;
-
-      res.json({ user: dbUserData, message: "You are now logged in" });
+      // route can only have 1 .res unless in an "if statement"
+      // res.json({ user: dbUserData, message: "You are now logged in" });
+      res.redirect("/");
     });
   });
 });
@@ -85,11 +84,11 @@ router.post("/logout", (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
       res.status(204).end();
+      res.redirect("/")
     });
   } else {
     res.status(404).end();
   }
 });
-
 
 module.exports = router;

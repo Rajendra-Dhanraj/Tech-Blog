@@ -34,7 +34,7 @@ const PORT = process.env.PORT || 3001;
 app.use(session(sess));
 
 // HANDLEBARS
-
+// handlebars set as the default template engine
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 

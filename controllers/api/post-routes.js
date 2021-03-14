@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Post, User } = require("../../models");
+const { Post, User, Comment } = require("../../models");
 
 // GET route to find all Posts
 router.get("/", (req, res) => {
@@ -7,6 +7,14 @@ router.get("/", (req, res) => {
     order: [["created_at", "DESC"]],
     attributes: ["id", "title", "post_text", "created_at"],
     include: [
+      {
+        model: Comment,
+        attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
+        include: {
+          model: User,
+          attributes: ["username"],
+        },
+      },
       {
         model: User,
         attributes: ["username"],
@@ -89,22 +97,22 @@ router.put("/:id", (req, res) => {
 
 // DELETE route to remove post
 router.delete("/:id", (req, res) => {
-    Post.destroy({
-      where: {
-        id: req.params.id,
-      },
+  Post.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((dbPostData) => {
+      if (!dbPostData) {
+        res.status(400).json({ message: "No post found with this id" });
+        return;
+      }
+      res.json(dbPostData);
     })
-      .then((dbPostData) => {
-        if (!dbPostData) {
-          res.status(400).json({ message: "No post found with this id" });
-          return;
-        }
-        res.json(dbPostData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  });
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
 
 module.exports = router;
