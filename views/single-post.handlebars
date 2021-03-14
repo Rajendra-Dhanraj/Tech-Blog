@@ -1,4 +1,4 @@
-{{!-- Display post  --}}
+{{!-- Display post --}}
 
 <ol class="post-list">
     <li>
@@ -18,7 +18,7 @@
 </ol>
 
 {{!-- Comment box --}}
-
+{{#if loggedIn}}
 <form class="comment-form">
     <div>
         <textarea name="comment-body"></textarea>
@@ -28,20 +28,24 @@
         <button type="submit">Submit</button>
     </div>
 </form>
+{{/if}}
 
 {{!-- Loop through and display all comments --}}
 
 <div class="comments">
-  {{#each post.comments}}
-  <section class="comment">
-    <div class="meta">
-      {{user.username}} on {{created_at}}
-    </div>
-    <div class="text">
-      {{comment_text}}
-    </div>
-  </section>
-  {{/each}}
+    {{#each post.comments}}
+    <section class="comment">
+        <div class="meta">
+            {{user.username}} on {{created_at}}
+        </div>
+        <div class="text">
+            {{comment_text}}
+        </div>
+    </section>
+    {{/each}}
 </div>
 
+{{!-- Only render comment javascript file for commenting if user is logged in --}}
+{{#if loggedIn}}
 <script src="/javascript/comment.js"></script>
+{{/if}}
