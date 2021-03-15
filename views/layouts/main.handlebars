@@ -8,21 +8,28 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
+
+
 <body>
     <div class="wrapper">
         <header>
-            <h1>
-                <a href="/">Home</a>
-            </h1>
+
             <nav>
+                <a href="/">Home</a>
                 <a href="/dashboard">Dashboard</a>
                 {{#if loggedIn}}
-                <button id="logout" class="btn-no-style">logout</button>
+                <button id="logout" class="btn-no-style">Logout</button>
                 {{else}}
-                <a href="/login">login</a>
+                <a href="/login">Login</a>
                 {{/if}}
             </nav>
+
+            <h1>
+                <a class="blog-title" href="/">Tech Blog</a>
+            </h1>
+
         </header>
+
         <main>
             {{{ body }}}
         </main>
